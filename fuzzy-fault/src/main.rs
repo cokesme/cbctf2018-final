@@ -1,6 +1,8 @@
 #![feature(inclusive_range_syntax)]
+#![feature(slice_patterns)]
 
 use std::collections::HashSet;
+use std::env;
 
 fn xtime(x: u8) -> u8 {
     ((x << 1) ^ (((x >> 7) & 1) * 0x1b))
@@ -53,6 +55,23 @@ fn MixColumns(mut state: [u8; 4]) -> u32 {
 
 fn main() {
     let mut delta = HashSet::new();
+    let args: Vec<String> = env::args().collect();
+
+    let words = [
+        [0x9e14cfe2, 0xa6ca0617, 0x5238b9e9, 0xbf10fa68],
+        [0x3d532896, 0xc63644e6, 0x56c310fa, 0xecd585ce],
+        [0x6e4fb5f8, 0xb9270ed3, 0x867822f8, 0xac5ed043],
+        [0x8cf13eff, 0xb8ecd56b, 0x5d065a03, 0x24bb5ff6],
+        [0xf1a3e892, 0xc8fce6c3, 0xd79ea1f2, 0x1c9c735d],
+    ];
+
+    let faulted_words = [
+        [0xe92f4126, 0x156f7040, 0xf207720e, 0x1cc2e436],
+        [0x445453d4, 0xe9459cfb, 0xc6ec9499, 0xa0f7de0b],
+        [0xa1d4c4d3, 0x1264ed4c, 0x6303fec1, 0x6917ee82],
+        [0x262d86c1, 0xddf3e99d, 0x3f0bd682, 0xd683731c],
+        [0x433d04b3, 0xd74a46f0, 0x293fe918, 0x1676ab64],
+    ];
 
     for j in 0_u8..=255_u8 {
         let n: u8 = j;
@@ -62,30 +81,30 @@ fn main() {
         delta.insert(MixColumns([0, 0, 0, n]));
     }
 
-    let w: u32 = 0x9e14cfe2;
-    let w_tilde: u32 = 0xe92f4126;
+    let i: usize = match args[1].parse() {
+        Ok(n) => n,
+        Err(_) => {
+            panic!();
+        },
+    };
 
-    let mut L = HashSet::new();
+    println!("{:?}", i);
 
-    for k in 0..4294967295 {
-        let n: u32 = InvSubBytes(w ^ k) ^ InvSubBytes(w_tilde ^ k);
-        if delta.contains(&n) {
-            println!("{:?}", k);
-            L.insert(k);
+    for j in 0..4 {
+        let w: u32 = words[i][j];
+        let w_tilde: u32 = faulted_words[i][j];
+
+        println!("----------");
+        println!("{{\"i\": {:?}, \"j\": {:?}, \"w\": {:?}, \"w_tilde\": {:?}}}", i, j, w, w_tilde);
+
+        let mut L = HashSet::new();
+
+        for k in 0..4294967295 {
+            let n: u32 = InvSubBytes(w ^ k) ^ InvSubBytes(w_tilde ^ k);
+            if delta.contains(&n) {
+                println!("{:?}", k);
+                L.insert(k);
+            }
         }
     }
-
-    let w: u32 = 0x3d532896;
-    let w_tilde: u32 = 0x445453d4;
-    let mut L2 = HashSet::new();
-
-    for k in &L {
-        let n: u32 = InvSubBytes(w ^ k) ^ InvSubBytes(w_tilde ^ k);
-        if delta.contains(&n) {
-            println!("{:?}", k);
-            L2.insert(k);
-        }
-    }
-
-    println!("{:?}", L2.len());
 }
