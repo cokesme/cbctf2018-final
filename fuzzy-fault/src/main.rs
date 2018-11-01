@@ -75,5 +75,17 @@ fn main() {
         }
     }
 
-    println!("{:?}", L.len());
+    let w: u32 = 0x3d532896;
+    let w_tilde: u32 = 0x445453d4;
+    let mut L2 = HashSet::new();
+
+    for k in &L {
+        let n: u32 = InvSubBytes(w ^ k) ^ InvSubBytes(w_tilde ^ k);
+        if delta.contains(&n) {
+            println!("{:?}", k);
+            L2.insert(k);
+        }
+    }
+
+    println!("{:?}", L2.len());
 }
