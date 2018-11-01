@@ -39,9 +39,10 @@ for i in range(100):
 
 
     #bits =  0b110001111100101001100110 #0x7fe37599e870 ^ 0x7fe375602216
-    print('ok?')
+    bits = 0b10100010001101000000100
+    #print('ok?')
     #raw_input()
-    bits = int(raw_input())
+    #bits = int(raw_input())
     cnt = 0
     bit = 0
 
