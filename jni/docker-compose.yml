@@ -6,24 +6,26 @@ services:
     depends_on:
       - problem
       - flag-submit
-    networks:
-      - network1
+#   networks:
+#     - network1
   problem:
     image: registry.finals.ctf.codeblue.jp:5000/problems/jni
     volumes:
       - "./flag:/flag"
+    ports:
+      - "4444:4444"
     expose:
       - "4444"
-    networks:
-      - network1
+#   networks:
+#     - network1
   flag-submit:
     image: registry.finals.ctf.codeblue.jp:5000/public/flag-submit
     volumes:
       - "./submitted-flag:/flag"
     expose:
       - "8080"
-    networks:
-      - network1
+#   networks:
+#     - network1
 networks:
   network1:
     internal: true
