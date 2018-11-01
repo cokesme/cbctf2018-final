@@ -1,0 +1,103 @@
+// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.
+// Jad home page: http://www.kpdus.com/jad.html
+// Decompiler options: packimports(3) 
+// Source File Name:   App.java
+
+import java.io.*;
+import java.util.Base64;
+import java.util.Random;
+
+public class App
+{
+
+    public App()
+    {
+    }
+
+    public static void main(String args[])
+    {
+        int i;
+        scramble();
+        i = 0;
+        BufferedReader bufferedreader;
+        Throwable throwable;
+        bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+        throwable = null;
+        try
+        {
+            do
+            {
+                if(i >= 256)
+                    break;
+                System.out.println("Send your request:");
+                Object obj = null;
+                MyRequest myrequest = null;
+                try
+                {
+                    byte abyte0[] = Base64.getDecoder().decode(bufferedreader.readLine().getBytes());
+                    ObjectInputStream objectinputstream = new ObjectInputStream(new ByteArrayInputStream(abyte0));
+                    myrequest = (MyRequest)objectinputstream.readObject();
+                }
+                catch(Exception exception1)
+                {
+                    System.out.println("Invalid data");
+                    continue;
+                }
+                System.out.println(myrequest.process());
+                i++;
+            } while(true);
+        }
+        catch(Throwable throwable2)
+        {
+            throwable = throwable2;
+            throw throwable2;
+        }
+        if(bufferedreader != null)
+            if(throwable != null)
+                try
+                {
+                    bufferedreader.close();
+                }
+                catch(Throwable throwable1)
+                {
+                    throwable.addSuppressed(throwable1);
+                }
+            else
+                bufferedreader.close();
+        break MISSING_BLOCK_LABEL_210;
+        Exception exception2;
+        exception2;
+        if(bufferedreader != null)
+            if(throwable != null)
+                try
+                {
+                    bufferedreader.close();
+                }
+                catch(Throwable throwable3)
+                {
+                    throwable.addSuppressed(throwable3);
+                }
+            else
+                bufferedreader.close();
+        throw exception2;
+        Exception exception;
+        exception;
+        System.out.println("Unknown error occured :(");
+    }
+
+    private static void scramble()
+    {
+        Random random = new Random();
+        String as[] = new String[256];
+        for(int i = 0; i < as.length * 4; i++)
+        {
+            String s = new String(new char[random.nextInt(0x7fffffff) % 4096]);
+            if(i % 4 == 0)
+                as[i / 4] = s;
+        }
+
+        bank = as;
+    }
+
+    private static String bank[];
+}
