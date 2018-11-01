@@ -12,8 +12,6 @@ services:
     image: registry.finals.ctf.codeblue.jp:5000/problems/easy_example
     volumes:
       - "./flag:/flag"
-    volumes:
-      - "./hoge:/hoge"
     ports:
       - "12345:12345"
     expose:
