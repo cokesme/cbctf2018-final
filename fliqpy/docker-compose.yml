@@ -2,30 +2,30 @@ version: '3'
 
 services:
   exploit:
-    image: registry.finals.ctf.codeblue.jp:5000/team04/easy_example
+    image: registry.finals.ctf.codeblue.jp:5000/team04/fliqpy
     depends_on:
       - problem
       - flag-submit
-#   networks:
-#     - network1
+    networks:
+      - network1
   problem:
-    image: registry.finals.ctf.codeblue.jp:5000/problems/easy_example
+    image: registry.finals.ctf.codeblue.jp:5000/problems/fliqpy
     volumes:
       - "./flag:/flag"
     ports:
       - "12345:12345"
     expose:
       - "12345"
-#   networks:
-#     - network1
+    networks:
+     - network1
   flag-submit:
     image: registry.finals.ctf.codeblue.jp:5000/public/flag-submit
     volumes:
       - "./submitted-flag:/flag"
     expose:
       - "8080"
-#   networks:
-#     - network1
+    networks:
+     - network1
 
 networks:
   network1:

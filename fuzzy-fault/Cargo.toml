@@ -1,0 +1,6 @@
+[package]
+name = "fuzzy-fault"
+version = "0.1.0"
+authors = ["Koki Takahashi <hakatasiloving@gmail.com>"]
+
+[dependencies]
